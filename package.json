@@ -1,0 +1,31 @@
+{
+  "name": "housing-prices-ol-v2",
+  "version": "1.0.0",
+  "description": "Map of housing prices in US using openlayers",
+  "main": "app.js",
+  "staticFiles": {
+    "staticPath": "data",
+    "staticOutPath": "data"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "test": "npm run lint",
+    "start": "parcel serve index.html",
+    "build": "parcel build index.html --public-url ./ && shx cp -r data dist/"
+  },
+  "author": "Derek Lichtner",
+  "license": "ISC",
+  "dependencies": {
+    "apexcharts": "^3.35.4",
+    "eslint": "^8.19.0",
+    "micromodal": "^0.4.10",
+    "nouislider": "^15.6.1",
+    "ol": "^6.14.1",
+    "parcel": "^2.6.2"
+  },
+  "devDependencies": {
+    "buffer": "^6.0.3",
+    "parcel-plugin-static-files-copy": "^2.6.0",
+    "parcel-reporter-static-files-copy": "^1.3.4"
+  }
+}

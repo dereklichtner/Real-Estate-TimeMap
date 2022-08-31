@@ -1,0 +1,656 @@
+@import "node_modules/ol/ol.css";
+@import "node_modules/nouislider/dist/nouislider.css";
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 100vw;
+  max-width: 100vw;
+  max-height: 100vh;
+  min-height: 100vh;
+  height: 100vh;
+  text-align: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 17px;
+  overflow: hidden;
+}
+
+
+/* Remove default focus outline, replace with focus-visible */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: solid 2px rgba(0,60,136,0.7);
+}
+
+
+/* Map canvas and container */
+.map-container {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  font-family: 'DM Sans', sans-serif;
+}
+
+#map-canvas {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  position: relative;
+  display: block;
+}
+
+#map-canvas.panel-top-toggle {
+  height: 64%;
+}
+
+@media only screen and (orientation: landscape) {
+  #map-canvas.panel-top-toggle {
+    height: 54%;
+  }
+}
+
+.year-display-text {
+  position: absolute;
+  display: float;
+  font-size: 1.3rem;
+  font-weight: 700;
+  top: 4px;
+  right: 8px;
+}
+
+
+/* Popout chart; additional ApexCharts settings in chartConfig.js */
+#chart-container {
+  padding: 10px 10px 0;
+  margin: 0;
+  width: 100%;
+  height: 36%;
+  display: none;
+  background-color: #f2efe9;
+  border-top: 4px double #6590b9;
+  animation: chartOut .3s cubic-bezier(0, 0, .2, 1);
+}
+
+@media only screen and (orientation: landscape) {
+  #chart-container {
+    height: 46%;
+  }
+}
+
+#chart-container.panel-bottom-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: chartIn .3s cubic-bezier(0, 0, .2, 1);
+}
+
+.apexcharts-xaxis-label {
+  display: none;
+  font-size: 0.8rem;
+  padding: 1px;
+}
+
+.apexcharts-xaxis-label:nth-child(2n + 1) {
+  display: revert;
+}
+
+.apexcharts-yaxis-label {
+  font-size: 0.8rem;
+}
+
+.apexcharts-title-text {
+  font-size: 1rem;
+}
+
+
+/* Toggle button for showing chart, shrinking map canvas */
+#toggle-button-container {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.toggle-button {
+  background: center / contain no-repeat url(./src/images/chevron-up-outline.svg);
+}
+
+.toggle-button-expanded {
+  background: center / contain no-repeat url(./src/images/chevron-down-outline.svg);
+}
+
+.toggle-button:hover {
+  background-color: #3d6ea5
+}
+
+.toggle-button:active {
+  background-color: rgba(0,60,136,0.7);
+}
+
+/* Popup map overlay */
+.ol-popup {
+  font-family: 'DM Sans', sans-serif;
+  position: absolute;
+  background-color: #f2efe9;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  bottom: 12px;
+  left: -50px;
+  animation: mmfadeIn .12s;
+}
+
+.ol-popup:after,
+.ol-popup:before {
+  top: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.ol-popup:after {
+  border-top-color: white;
+  border-width: 10px;
+  left: 48px;
+  margin-left: -10px;
+}
+
+.ol-popup:before {
+  border-top-color: #cccccc;
+  border-width: 11px;
+  left: 48px;
+  margin-left: -11px;
+}
+
+.ol-popup-closer {
+  text-decoration: none;
+  color: #f2efe9;
+  position: absolute;
+  top: 2px;
+  right: 8px;
+  padding: 2px;
+}
+
+.ol-popup-closer:after {
+  content: "✖";
+}
+
+.ol-popup-closer:hover {
+  color: red;
+}
+
+.ol-popup h1 {
+  font-size: 1.1rem;
+  padding: 0.7rem 1.4rem;
+  background-color: #6590b9;
+  color: #ffffff;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  min-width: 240px;
+}
+
+.ol-popup h2 {
+  font-size: 0.85rem;
+  margin: 0.5rem 0;
+}
+
+.ol-popup h3 {
+  font-size: 1.3rem;
+  margin: 0.5rem 0;
+}
+
+
+/* Map controls */
+.ol-control button {
+  background-color: rgba(0,60,136,0.5);
+}
+
+.ol-control button:focus {
+  text-decoration: unset;
+  background-color: rgba(0,60,136,0.5);
+}
+
+.ol-control button:focus-visible {
+  background-color: rgba(0,60,136,0.7);
+}
+
+.ol-control button:hover {
+  background-color: rgba(0,60,136,0.7);
+}
+
+.ol-control button:active {
+  background-color: rgba(0,60,136,0.8);
+}
+
+.play-button-container {
+  bottom: 88px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.play-button-container button {
+  margin: 1px;
+  height: 50px;
+  width: 50px;
+}
+
+.next-frame-button {
+  bottom: 88px;
+  left: 50%;
+  transform: translateX(100%);
+}
+
+.prev-frame-button {
+  bottom: 88px;
+  left: 50%;
+  transform: translateX(-200%);
+}
+.slider-element {
+  bottom: 8px;
+  left: 50%;
+  width: 88%;
+  height: 80px;
+  padding-bottom: 4px;
+  position: absolute;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.4);
+  display: flex;
+  justify-content: center;
+}
+
+.slider-element:hover {
+  background-color: rgba(255, 255, 255, 0.4);; /* Do not change color on hover like other ol-controls */
+}
+
+.slider-container-outer {
+  display: table;
+  width: 100%;
+  height: 100%;
+  margin: 1px;
+  padding: 6px;
+  background-color: rgba(0, 60, 136, 0.5);
+  border-radius: 2px;
+  text-align: center;
+}
+
+.slider-container-inner {
+  width: 100%;
+  padding: 6px 20px 0;
+}
+
+.slider-styled {
+  height: 6px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.slider-styled .noUi-handle {
+  box-shadow: none;
+  height: 24px;
+  width: 8px;
+  top: -8px;
+  right: -4px; /* half the width */
+  border-radius: 3px;
+  background: #6590b9;
+}
+
+.slider-styled .noUi-handle:hover {
+  background: #3d6ea5;
+}
+
+.slider-styled .noUi-handle:active {
+  background-color: rgba(20,80,120,0.95);
+}
+
+.slider-styled .noUi-handle::before,
+.slider-styled .noUi-handle::after {
+  display: none; /* Hide markers on slider handles */
+}
+
+.slider-styled .noUi-value {
+  color: #f2efe9;
+  font-size: 1rem;
+}
+
+.slider-styled .noUi-marker-horizontal {
+  transform: translateY(-14px);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.slider-styled .noUi-marker-horizontal.noUi-marker-sub {
+  height: 30% !important;
+}
+
+.slider-styled .noUi-marker-horizontal.noUi-marker-normal {
+  height: 15% !important;
+}
+
+.slider-styled .noUi-handle .noUi-touch-area {
+  border: 1px solid transparent;
+  position: absolute;
+  top: -8px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  width: auto;
+  height: auto;
+}
+
+
+/* Spinner animation on map load */
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner:after {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin-top: -20px;
+  margin-left: -20px;
+  border-radius: 50%;
+  border: 5px solid rgba(255, 255, 255, 0.4);
+  border-top-color: rgba(0, 60, 136, 0.5);
+  animation: spinner 0.6s linear infinite;
+}
+
+
+/**************************\
+ Responsive layout elements
+\**************************/
+
+ /* Extra small devices (phones, 600px and down) */
+ @media only screen and (max-width: 600px) {
+
+ }
+
+ /* Small devices (portrait tablets and large phones, 600px and up) */
+ @media only screen and (min-width: 600px) {
+  .apexcharts-xaxis-label:nth-child(2n + 1) {
+    display: revert;
+  }
+ }
+ 
+ /* Medium devices (landscape tablets, 768px and up) */
+ @media only screen and (min-width: 768px) {
+  .apexcharts-xaxis-label:nth-child(n + 1) {
+    display: revert;
+  }
+ }
+ 
+ /* Large devices (laptops/desktops, 992px and up) */
+ @media only screen and (min-width: 992px) {
+
+ }
+ 
+ /* Extra large devices (large laptops and desktops, 1200px and up) */
+ @media only screen and (min-width: 1200px) {  
+ }
+
+ /* Chart yaxis label spacing responds to screen height */
+@media only screen and (max-height: 680px) {
+  .apexcharts-yaxis-label {
+    display: none;
+  }
+  .apexcharts-yaxis-label:nth-child(2n + 1) {
+    display: revert;
+  }
+.apexcharts-yaxis-title-text {
+  font-size: 12px;
+}
+ }
+  @media only screen and (min-height: 992px) {
+  .apexcharts-yaxis-label {
+    display: revert;
+  }
+ }
+
+
+ /**************************\
+  Modal dialog styles
+\**************************/
+
+.modal {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  text-align: left;
+}
+
+.modal__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal__container {
+  background-color: #fff;
+  padding: 30px;
+  max-width: 590px;
+  max-height: 100vh;
+  border-radius: 4px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.7rem;
+}
+
+.modal h3 {
+  font-size: 1.6rem;
+  line-height: 2.1rem;
+  margin-bottom: 0.8rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+}
+
+.modal__title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.25;
+  color: #6590b9;
+  box-sizing: border-box;
+}
+
+.modal__close {
+  background: transparent;
+  border: 0;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.modal__close:hover {
+  color: red;
+}
+
+.modal__header .modal__close:before { content: "\2715"; }
+
+.modal__content {
+  line-height: 1.6rem;
+  color: rgba(0,0,0,.8);
+}
+
+.modal-img-inline {
+  height: 1rem;
+  display: inline-block;
+  background-color: #6590b9;
+  vertical-align: middle;
+  transform: translateY(-2px);
+}
+
+.points-map-legend {
+  text-align: center;
+  padding: 12px;
+}
+
+#circle-small-green {
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background-color: #81c49c;
+}
+
+#circle-med-green {
+  width: 19px;
+  height: 19px;
+  border-radius: 100%;
+  background-color: #aac489;
+}
+
+#circle-med-yellow {
+  width: 28px;
+  height: 28px;
+  border-radius: 100%;
+  background-color: #c5c47c;
+}
+
+#circle-med-orange {
+  width: 37px;
+  height: 37px;
+  border-radius: 100%;
+  background-color: #c6b27b;
+}
+
+#circle-big-red {
+  width: 55px;
+  height: 55px;
+  border-radius: 100%;
+  background-color: #c6827b;
+}
+
+.modal__btn {
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #6590b9;
+  color: #fff;
+  border-radius: 10%;
+  border-style: none;
+  border-width: 0;
+  cursor: pointer;
+  -webkit-appearance: button;
+  text-transform: none;
+  overflow: visible;
+  line-height: 1.15;
+  margin: 0 1rem 1.3rem;
+  will-change: transform;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  transition: -webkit-transform .25s ease-out;
+  transition: transform .25s ease-out;
+  transition: transform .25s ease-out,-webkit-transform .25s ease-out;
+}
+
+.modal__btn:focus-visible, .modal__btn:hover {
+  -webkit-transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.modal__btn:active {
+  background-color: rgba(0,60,136,0.7);
+}
+
+.modal__btn-primary {
+  background-color: #00449e;
+  color: #fff;
+}
+
+.modal__footer {
+  font-size: 0.7rem;
+  text-align: center;
+  /* margin-bottom: 0; */
+}
+
+.modal footer p {
+  margin-bottom: 0;
+
+}
+
+
+/**************************\
+  Animation Styles
+\**************************/
+@keyframes mmfadeIn {
+    from { opacity: 0; }
+      to { opacity: 1; }
+}
+
+@keyframes mmfadeOut {
+    from { opacity: 1; }
+      to { opacity: 0; }
+}
+
+@keyframes mmslideIn {
+  from { transform: translateY(15%); }
+    to { transform: translateY(0); }
+}
+
+@keyframes mmslideOut {
+    from { transform: translateY(0); }
+    to { transform: translateY(-10%); }
+}
+
+@keyframes chartIn {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes chartOut {
+  from { transform: translateY(0); }
+  to { transform: translateY(100%); }
+}
+
+.micromodal-slide {
+  display: none;
+}
+
+.micromodal-slide.is-open {
+  display: block;
+}
+
+.micromodal-slide[aria-hidden="false"] .modal__overlay {
+  animation: mmfadeIn .3s cubic-bezier(0.0, 0.0, 0.2, 1);
+}
+
+.micromodal-slide[aria-hidden="false"] .modal__container {
+  animation: mmslideIn .3s cubic-bezier(0, 0, .2, 1);
+}
+
+.micromodal-slide[aria-hidden="true"] .modal__overlay {
+  animation: mmfadeOut .3s cubic-bezier(0.0, 0.0, 0.2, 1);
+}
+
+.micromodal-slide[aria-hidden="true"] .modal__container {
+  animation: mmslideOut .3s cubic-bezier(0, 0, .2, 1);
+}
+
+.micromodal-slide .modal__container,
+.micromodal-slide .modal__overlay {
+  will-change: transform;
+}
