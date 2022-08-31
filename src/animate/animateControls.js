@@ -183,7 +183,7 @@ class SliderControl extends Control {
       return 2;
     }
 
-    if (window.innerWidth < 600) {
+    if (window.innerWidth < 700) {
       slider.noUiSlider.updateOptions({
         pips: {
           ...slider.noUiSlider.options.pips,

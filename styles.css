@@ -1,6 +1,7 @@
 @import "node_modules/ol/ol.css";
 @import "node_modules/nouislider/dist/nouislider.css";
 
+
 html,
 body {
   margin: 0;
@@ -47,12 +48,6 @@ body {
   height: 64%;
 }
 
-@media only screen and (orientation: landscape) {
-  #map-canvas.panel-top-toggle {
-    height: 54%;
-  }
-}
-
 .year-display-text {
   position: absolute;
   display: float;
@@ -75,17 +70,20 @@ body {
   animation: chartOut .3s cubic-bezier(0, 0, .2, 1);
 }
 
-@media only screen and (orientation: landscape) {
-  #chart-container {
-    height: 46%;
-  }
-}
+
+
 
 #chart-container.panel-bottom-toggle {
   display: flex;
   align-items: center;
   justify-content: center;
   animation: chartIn .3s cubic-bezier(0, 0, .2, 1);
+}
+
+#chart {
+  display: inline-block;
+  width: 99%;
+  height: 99%;
 }
 
 .apexcharts-xaxis-label {
@@ -366,57 +364,6 @@ body {
 }
 
 
-/**************************\
- Responsive layout elements
-\**************************/
-
- /* Extra small devices (phones, 600px and down) */
- @media only screen and (max-width: 600px) {
-
- }
-
- /* Small devices (portrait tablets and large phones, 600px and up) */
- @media only screen and (min-width: 600px) {
-  .apexcharts-xaxis-label:nth-child(2n + 1) {
-    display: revert;
-  }
- }
- 
- /* Medium devices (landscape tablets, 768px and up) */
- @media only screen and (min-width: 768px) {
-  .apexcharts-xaxis-label:nth-child(n + 1) {
-    display: revert;
-  }
- }
- 
- /* Large devices (laptops/desktops, 992px and up) */
- @media only screen and (min-width: 992px) {
-
- }
- 
- /* Extra large devices (large laptops and desktops, 1200px and up) */
- @media only screen and (min-width: 1200px) {  
- }
-
- /* Chart yaxis label spacing responds to screen height */
-@media only screen and (max-height: 680px) {
-  .apexcharts-yaxis-label {
-    display: none;
-  }
-  .apexcharts-yaxis-label:nth-child(2n + 1) {
-    display: revert;
-  }
-.apexcharts-yaxis-title-text {
-  font-size: 12px;
-}
- }
-  @media only screen and (min-height: 992px) {
-  .apexcharts-yaxis-label {
-    display: revert;
-  }
- }
-
-
  /**************************\
   Modal dialog styles
 \**************************/
@@ -653,4 +600,63 @@ body {
 .micromodal-slide .modal__container,
 .micromodal-slide .modal__overlay {
   will-change: transform;
+}
+
+/**************************\
+ Responsive layout elements
+\**************************/
+
+@media only screen and (orientation: landscape) {
+  #chart-container {
+    height: 46%;
+  }
+  #map-canvas.panel-top-toggle {
+    height: 54%;
+  }
+}
+
+ /* Extra small devices (phones, 600px and down) */
+ @media only screen and (max-width: 600px) {
+
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+ .apexcharts-xaxis-label:nth-child(2n + 1) {
+   display: revert;
+ }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+ .apexcharts-xaxis-label:nth-child(n + 1) {
+   display: revert;
+ }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {  
+}
+
+/* Chart yaxis label spacing responds to screen height */
+@media only screen and (max-height: 680px) {
+ .apexcharts-yaxis-label {
+   display: none;
+ }
+ .apexcharts-yaxis-label:nth-child(2n + 1) {
+   display: revert;
+ }
+.apexcharts-yaxis-title-text {
+ font-size: 12px;
+}
+}
+ @media only screen and (min-height: 992px) {
+ .apexcharts-yaxis-label {
+   display: revert;
+ }
 }
