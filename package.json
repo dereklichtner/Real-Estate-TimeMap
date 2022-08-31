@@ -2,7 +2,6 @@
   "name": "housing-prices-ol-v2",
   "version": "1.0.0",
   "description": "Map of housing prices in US using openlayers",
-  "main": "app.js",
   "staticFiles": {
     "staticPath": "data",
     "staticOutPath": "data"
