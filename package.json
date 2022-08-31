@@ -1,5 +1,5 @@
 {
-  "name": "housing-prices-ol-v2",
+  "name": "real-estate-timemap",
   "version": "1.0.0",
   "description": "Map of housing prices in US using openlayers",
   "staticFiles": {
@@ -13,7 +13,7 @@
     "build": "parcel build index.html --public-url ./ && shx cp -r data dist/"
   },
   "author": "Derek Lichtner",
-  "license": "ISC",
+  "license": "GPL-3.0-or-later",
   "dependencies": {
     "apexcharts": "^3.35.4",
     "eslint": "^8.19.0",
@@ -26,5 +26,19 @@
     "parcel": "^2.6.2",
     "parcel-plugin-static-files-copy": "^2.6.0",
     "parcel-reporter-static-files-copy": "^1.3.4"
-  }
+  },
+  "main": ".proxyrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dereklichtner/Real-Estate-TimeMap.git"
+  },
+  "keywords": [
+    "map",
+    "gis",
+    "openlayers"
+  ],
+  "bugs": {
+    "url": "https://github.com/dereklichtner/Real-Estate-TimeMap/issues"
+  },
+  "homepage": "https://github.com/dereklichtner/Real-Estate-TimeMap#readme"
 }
