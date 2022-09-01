@@ -1,7 +1,7 @@
 {
   "name": "real-estate-timemap",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "index.html",
   "targets": { "main": false },
   "description": "Map of housing prices in US using openlayers",
   "staticFiles": {
@@ -13,7 +13,7 @@
     "test": "npm run lint",
     "start": "parcel serve index.html",
     "build": "parcel build index.html --public-url ./ && shx cp -r data dist/",
-    "deploy": "npm ci && parcel build index.html --public-url ./ && shx cp -r data dist/"
+    "deploy": "npm ci && parcel build index.html --public-url . && shx cp -r data dist/"
   },
   "author": "Derek Lichtner",
   "license": "GPL-3.0-or-later",
