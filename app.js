@@ -133,7 +133,7 @@ let basemap = new TileLayer({
 });
 
 // Create popup component for map overlay
-popupOverlay = new Popup(housePricesLayer);
+const popupOverlay = new Popup(housePricesLayer);
 
 // Make attribution control [i] collapsed by default
 const attributions = new Attribution({
