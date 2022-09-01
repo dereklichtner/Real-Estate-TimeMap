@@ -2,7 +2,9 @@
   "name": "real-estate-timemap",
   "version": "1.0.0",
   "main": "index.html",
-  "targets": { "main": false },
+  "targets": {
+    "main": false
+  },
   "description": "Map of housing prices in US using openlayers",
   "staticFiles": {
     "staticPath": "data",
@@ -22,7 +24,8 @@
     "eslint": "^8.19.0",
     "micromodal": "^0.4.10",
     "nouislider": "^15.6.1",
-    "ol": "^6.14.1"
+    "ol": "^6.14.1",
+    "shx": "^0.3.4"
   },
   "devDependencies": {
     "buffer": "^6.0.3",
