@@ -1,7 +1,7 @@
 {
   "name": "real-estate-timemap",
   "version": "1.0.0",
-  "main": "index.html",
+  "main": "app.js",
   "targets": {
     "main": false
   },
